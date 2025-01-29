@@ -10,17 +10,19 @@
 <body>
     <!-- Barre de navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Les libraires associés</a>
+        <a class="navbar-brand" href="{{route('summaries.index')}}">Les libraires associés</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Accueil</a>
+                    <a class="nav-link" href="{{route('summaries.index')}}">Accueil</a>
                 </li>
 
                 @if(Auth::guest())
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('login.index')}}">Connexion</a>
                 </li>
@@ -29,7 +31,7 @@
                 </li>
                 @else
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Mon Compte</a>
+                    <a class="nav-link" href="#">Mon Compte:{{Auth::user()->name}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('summaries.create')}}">Publication</a>

@@ -18,11 +18,15 @@ use App\Http\Controllers\SummaryController;
 |
 */
 
-Route::get('/', function () {
+
+
+Route::get('/',[SummaryController::class,'index'])->name('summaries.index');
+
+/*Route::get('/', function () {
     return view('test', [
         "title" => env('APP_NAME')
     ]);
-});
+})->name('home');*/
 
 Route::get('register',[RegisterController::class, 'index'])->name('register.index');
 
@@ -39,4 +43,4 @@ Route::get('reset/{token}',[ForgotController::class, 'index'])->name('reset.inde
 Route::post('reset',[ForgotController::class, 'reset'])->name('reset.reset');
 
 
-Route::resource('summaries',SummaryController::class);
+Route::resource('summaries',SummaryController::class)->except('index');

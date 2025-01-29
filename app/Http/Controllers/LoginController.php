@@ -36,7 +36,7 @@ class LoginController extends Controller
                // Auth::guest();
                 // Auth::check();
                 // Auth::logout();
-                return redirect('/');
+                return redirect('/summaries');
             }
             return back()->withErrors('Invalide')->withInput();
 

@@ -22,6 +22,24 @@
                             Publié par : <a href="#">{{$summary->user->name}}</a> - Inscrit le {{$summary->user->created_at->isoFormat('LLL')}}<br>
                             Article posté : {{ $summary->created_at->isoFormat('LLL') }} - 7 Commentaire(s)
                         </p>
+                        @if (Auth::check() && Auth::user()->id === $summary->user_id)
+             <div class="d-flex">
+        <!-- Bouton Modifier -->
+        <a href="{{ route('summaries.edit', ['summary' => $summary->slug]) }}" class="btn btn-warning btn-sm me-2">
+            Modifier
+        </a>
+
+        <!-- Bouton Supprimer -->
+        <form action="{{ route('summaries.destroy', ['summary' => $summary->slug]) }}" method="POST"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce résumé ?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm">
+                Supprimer
+            </button>
+        </form>
+    </div>
+@endif
                     </div>
                 </div>
 
