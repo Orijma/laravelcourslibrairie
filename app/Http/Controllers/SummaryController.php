@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 use App\Models\Summary;
+use App\Models\User;
+
+use App\http\Requests\SummaryRequest;
+use Illuminate\Support\Facades\Auth;
+
+use Str;
 
 class SummaryController extends Controller
 {
@@ -32,15 +39,27 @@ class SummaryController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::get();
+        $data=[
+            'title'=> $description = 'Crée Synopsis',
+            'description' => $description,
+            'categories' => $categories
+        ];
+        return view('summaries.create',$data);
     }
+    
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SummaryRequest $summaryRequest)
     {
-        //
+        $validateData = $summaryRequest->validated();
+
+        Auth::user()->summaries()->create($validateData);
+
+        return back()->withInfo('synopsis crée');
+        
     }
 
     /**
@@ -48,7 +67,7 @@ class SummaryController extends Controller
      */
     public function show(Summary $summary)
     {
-    $data=[
+         $data=[
             'title'=> $summary->title,
             'description' => $summary->title,
             'summary'=>$summary
@@ -61,24 +80,40 @@ class SummaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Summary $summary)
     {
-        //
+
+        $categories = Category::get();
+        $data=[
+            'title'=> $summary->title,
+            'description' => $summary->title,
+            'summary'=>$summary,
+            'categories'=>$categories
+
+         ];
+         return view('summaries.edit',$data);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SummaryRequest $summaryRequest, Summary $summary)
     {
-        //
+        
+        $validateData = $summaryRequest->validated();
+        $summary->update($validateData);
+    
+        return redirect()->route('summaries.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Summary $summary)
     {
-        //
+        $summary->delete(); 
+    
+        return redirect()->route('summaries.index');
     }
 }
